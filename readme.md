@@ -1,5 +1,5 @@
 for setup:-
-   step 1: clone repository in local storage.
+   step 1: clone repository in local storage. (insure that there is 'compressed' folder inside 'images' folder)
 
    step 2: since code is written in node js.So please download and install stable version
       of node javascript engine from 'https://nodejs.org/en/'.
