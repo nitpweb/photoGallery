@@ -1,0 +1,58 @@
+html {
+   position: relative;
+   min-height: 100%;
+ }
+ body {
+   background-color: antiquewhite;
+ }
+
+.upload{
+   width: 70%;
+   margin: auto;
+   margin-top: 5rem;
+   background-color: azure;
+}
+
+.logo{
+   height: 2.5rem;
+   margin-right: 2.5rem;
+}
+
+.browse{
+   text-align: center;
+   margin-top: 3rem;
+   display: block;
+}
+
+.branch{
+   text-align: center;
+   margin-bottom:1.5rem;
+}
+
+.name{
+   text-align: center;
+}
+.heading{
+   font-size: 3rem;
+   color: rgb(114, 114, 117);
+   margin-top: 4rem;
+   text-align: center;
+}
+.carousel-control-prev{
+   width: 45%;
+}
+
+.carousel-control-next{
+   width: 45%;
+}
+
+#carouselExampleControls{
+   width: 60%;
+   margin: auto;
+   margin-top: 5rem;
+   background-color: azure;
+}
+
+#img{
+    width: 100%;
+}
