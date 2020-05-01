@@ -10,7 +10,7 @@ for setup:-
       in 'https://developers.google.com/drive/api/v3/quickstart/nodejs'
       and copy it in working repository.
 
-   step 5: run 'node i' in cmd.
+   step 5: run 'npm i' in cmd.
 
    step 6: For creating folder in google drive, run 'localhost:3000/create' in browser.
 
