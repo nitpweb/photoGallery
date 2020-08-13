@@ -120,7 +120,7 @@ app.post('/upload', (req, res) => {
   let uploadFile = (auth, parent, filePath) => {
     const drive = google.drive({ version: 'v3', auth });
     var fileMetadata = {
-      name: req.files.file.name,
+      name: `${req.files.file.name}.webp`,
       parents: parent,
     };
     var media = {
@@ -376,4 +376,12 @@ app.get('/:branch', (req, res) => {
 
 app.listen('3000', () => {
   console.log('app is running at port 3000');
+});
+
+let port = process.env.PORT;
+if (port == null || port == '') {
+  port = 3000;
+}
+app.listen(port, () => {
+  console.log('app is running at port Successfully');
 });
