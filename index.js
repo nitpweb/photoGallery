@@ -98,7 +98,7 @@ app.post('/upload', (req, res) => {
         let fileId = files.map(function (file) {
           return file.id;
         });
-        async function copy_upload() {
+        async function compressFile() {
           try {
             await req.files.file.mv(
               __dirname + '/images/' + req.files.file.name.toLowerCase()
@@ -112,7 +112,7 @@ app.post('/upload', (req, res) => {
             console.log('error occured in async function.');
           }
         }
-        copy_upload();
+        compressFile();
       }
     );
   };
@@ -302,6 +302,46 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/upload.html');
 });
 
+/////////////////////////////////Deleting Files///////////////////////////////////////
+// app.post('/delete', (req, res) => {
+//   let authorize = (credentials, callback) => {
+//     const { client_secret, client_id, redirect_uris } = credentials.installed;
+//     const oAuth2Client = new google.auth.OAuth2(
+//       client_id,
+//       client_secret,
+//       redirect_uris[0]
+//     );
+
+//     // Check if we have previously stored a token.
+//     fs.readFile(TOKEN_PATH, (err, token) => {
+//       if (err) return getAccessToken(oAuth2Client, callback);
+//       oAuth2Client.setCredentials(JSON.parse(token));
+//       callback(oAuth2Client);
+//     });
+//   };
+
+//   fs.readFile('credentials.json', (err, content) => {
+//     if (err) return console.log('Error loading client secret file:', err);
+//     authorize(JSON.parse(content), getFile);
+//   });
+
+//   let getFile = (auth) => {
+//     const drive = google.drive({ version: 'v3', auth });
+//     drive.files.delete(
+//       {
+//         corpora: 'user',
+//         fileId: `${req.fielId}`,
+//         fields: 'files(*)',
+//       },
+//       (err, res) => {
+//         if (err) return console.log('The API returned an error: ' + err);
+//         // const files = res.data.files;
+//         console.log('deleted');
+//       }
+//     );
+//   };
+// });
+
 /////////////////////////////////Return JSON to branch.html////////////////////////////////////
 
 app.post('/json', (req, response) => {
@@ -359,7 +399,7 @@ app.post('/json', (req, response) => {
         const files = res.data.files;
         if (files.length) {
           files.forEach((file) => {
-            images.push(file.webContentLink);
+            images.push(file.id);
           });
           response.json(images);
         } else {
@@ -372,10 +412,6 @@ app.post('/json', (req, response) => {
 
 app.get('/:branch', (req, res) => {
   res.sendFile(__dirname + '/public/html/' + req.params.branch);
-});
-
-app.listen('3000', () => {
-  console.log('app is running at port 3000');
 });
 
 let port = process.env.PORT;
