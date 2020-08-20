@@ -11,7 +11,7 @@ step 4: Download credentials.json by clicking button 'Enable the Drive Api'
 (Desktop App) in 'https://developers.google.com/drive/api/v3/quickstart/nodejs'
 and copy it in working repository.
 
-step 5: run 'npm i' in cmd.
+step 5: run 'npm i' & then 'node server.js' in any command line interface.
 
 step 6: For creating folder in google drive, run 'localhost:3000/create' in browser
 and then make the folder accessible to all with the link in google drive.
