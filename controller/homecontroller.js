@@ -116,7 +116,7 @@ exports.uploadImg = async (req, res) => {
       }
     );
   };
-  res.redirect('/');
+  res.redirect(`/${req.body.branch}.html`);
 };
 
 exports.create = async (req, res) => {
@@ -295,16 +295,17 @@ exports.delete = async (req, res) => {
     drive.files.delete(
       {
         corpora: 'user',
-        fileId: `${req.fielId}`,
+        fileId: `${req.body.fileId}`,
         fields: 'files(*)',
       },
       (err, res) => {
         if (err) return console.log('The API returned an error: ' + err);
         // const files = res.data.files;
-        console.log('deleted');
+        console.log('selected file is deleted');
       }
     );
   };
+  res.redirect(`/${req.body.branch}.html`);
 };
 
 exports.json = async (req, response) => {
