@@ -1,4 +1,5 @@
 async function doAjax() {
+  console.log(branch);
   var imageData;
   await $.ajax({
     url: 'json/',
@@ -10,13 +11,12 @@ async function doAjax() {
     success: (data) => {
       imageData = data.map(function (image) {
         return `
-<form class="image" action="/delete" accept-charset="UTF-8" method="POST">
-  <img src="https://drive.google.com/uc?id=${image}&export=download" class="d-block w-100" alt=${image}/>
-  <div class="dialog-box">
-   <div class="dialog-message">
-      <p>Do you want to delete this image?</p>
+<form class="img-box" action="/delete" accept-charset="UTF-8" method="POST">
+  <img src="https://drive.google.com/uc?id=${image}&export=download" alt=${image}/>
+  <div class="transparent-box">
+   <div class="caption">
       <input type="hidden" name="branch" value=${branch}>
-      <button type="submit" name="fileId" class="yes" value=${image}>-</button>
+      <button type="submit" name="fileId" class="delete-btn" value=${image}>Delete &#10007;</button>
     </div>
   </div>
 </form>`;
@@ -26,16 +26,7 @@ async function doAjax() {
   await imageData.forEach((image) => {
     document.getElementById('images').innerHTML += image;
   });
-  const images = document.querySelectorAll('.image');
-  await images.forEach((image) => {
-    let dBox = image.getElementsByClassName('dialog-box')[0];
-    image.addEventListener('mouseover', function () {
-      dBox.style.display = 'block';
-    });
-    image.addEventListener('mouseout', function () {
-      dBox.style.display = 'none';
-    });
-  });
+  
 }
 
 doAjax();

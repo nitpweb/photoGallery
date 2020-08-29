@@ -57,6 +57,7 @@ exports.uploadImg = async (req, res) => {
 
   let getFolder = (auth) => {
     const drive = google.drive({ version: 'v3', auth });
+
     drive.files.list(
       {
         corpora: 'user',
@@ -116,6 +117,7 @@ exports.uploadImg = async (req, res) => {
       }
     );
   };
+  console.log(req.body.branch)
   res.redirect(`/${req.body.branch}.html`);
 };
 
