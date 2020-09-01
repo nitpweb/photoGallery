@@ -33,7 +33,7 @@ let getAccessToken = (oAuth2Client, callback) => {
   });
 };
 
-exports.uploadImg = async (req, res) => {
+exports.uploadImg = async (req, response) => {
   let authorize = (credentials, callback) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(
@@ -51,13 +51,15 @@ exports.uploadImg = async (req, res) => {
   };
 
   fs.readFile('credentials.json', (err, content) => {
-    if (err) return console.log('Error loading client secret file:', err);
+    if (err)
+      return response
+        .status(500)
+        .json('Error loading client secret file:', err);
     authorize(JSON.parse(content), getFolder);
   });
 
   let getFolder = (auth) => {
     const drive = google.drive({ version: 'v3', auth });
-
     drive.files.list(
       {
         corpora: 'user',
@@ -65,7 +67,8 @@ exports.uploadImg = async (req, res) => {
         fields: 'files(*)',
       },
       (err, res) => {
-        if (err) return console.log('The API returned an error: ' + err);
+        if (err)
+          return response.status(400).json('The API returned an error: ' + err);
         const files = res.data.files;
         let fileId = files.map(function (file) {
           return file.id;
@@ -81,7 +84,7 @@ exports.uploadImg = async (req, res) => {
             });
             await uploadFile(auth, fileId, compressedFiles[0].destinationPath);
           } catch {
-            console.log('error occured in async function.');
+            console.log('error occured in compressing image.');
           }
         }
         compressFile();
@@ -108,7 +111,7 @@ exports.uploadImg = async (req, res) => {
       function (err, res) {
         if (err) {
           // Handle error
-          console.log(err);
+          response.status(409).json('error occured in uploading image.');
         } else {
           fs.unlink(`${rootPath}/images/` + req.files.file.name);
           fs.unlink(filePath);
@@ -117,8 +120,7 @@ exports.uploadImg = async (req, res) => {
       }
     );
   };
-  console.log(req.body.branch)
-  res.redirect(`/${req.body.branch}.html`);
+  response.status(200).json('uploaded successfully.');
 };
 
 exports.create = async (req, res) => {
@@ -260,6 +262,24 @@ exports.create = async (req, res) => {
                   resource: fileMetadata,
                   fields: 'id',
                 });
+                fileMetadata = {
+                  name: 'homeHeader',
+                  mimeType: 'application/vnd.google-apps.folder',
+                  parents: [folder.data.id],
+                };
+                drive.files.create({
+                  resource: fileMetadata,
+                  fields: 'id',
+                });
+                fileMetadata = {
+                  name: 'homeGallery',
+                  mimeType: 'application/vnd.google-apps.folder',
+                  parents: [folder.data.id],
+                };
+                drive.files.create({
+                  resource: fileMetadata,
+                  fields: 'id',
+                });
               }
             }
           );
@@ -267,10 +287,10 @@ exports.create = async (req, res) => {
       }
     );
   };
-  res.redirect('/');
+  res.status(200).json('Folder Created');
 };
 
-exports.delete = async (req, res) => {
+exports.delete = async (req, response) => {
   let authorize = (credentials, callback) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(
@@ -301,16 +321,17 @@ exports.delete = async (req, res) => {
         fields: 'files(*)',
       },
       (err, res) => {
-        if (err) return console.log('The API returned an error: ' + err);
+        if (err)
+          return response.status(500).json('The API returned an error: ' + err);
         // const files = res.data.files;
         console.log('selected file is deleted');
       }
     );
   };
-  res.redirect(`/${req.body.branch}.html`);
+  response.status(200).json('image deleted');
 };
 
-exports.json = async (req, response) => {
+exports.imgId = async (req, response) => {
   var images = [];
   let authorize = (credentials, callback) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -342,7 +363,8 @@ exports.json = async (req, response) => {
         fields: 'files(*)',
       },
       (err, res) => {
-        if (err) return console.log('The API returned an error: ' + err);
+        if (err)
+          return response.status(500).json('The API returned an error: ' + err);
         const files = res.data.files;
         let fileId = files.map(function (file) {
           return file.id;
@@ -361,23 +383,28 @@ exports.json = async (req, response) => {
         fields: 'nextPageToken, files(*)',
       },
       (err, res) => {
-        if (err) return console.log('The API returned an error: ' + err);
+        if (err)
+          return response.status(400).json('The API returned an error: ' + err);
         const files = res.data.files;
         if (files.length) {
           files.forEach((file) => {
             images.push(file.id);
           });
-          response.json(images);
+          response.status(200).json(images);
         } else {
-          console.log('No files found.');
+          response.status(404);
         }
       }
     );
   };
 };
 
-exports.upload = async (req, res) => {
-  res.sendFile('upload.html', { root: `${rootPath}/public/html/` });
+exports.homeHeader = async (req, res) => {
+  res.sendFile('homeheader.html', { root: `${rootPath}/public/html/` });
+};
+
+exports.homeGallery = async (req, res) => {
+  res.sendFile('homeGallery.html', { root: `${rootPath}/public/html/` });
 };
 
 exports.Artitecture = async (req, res) => {

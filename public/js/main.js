@@ -1,12 +1,19 @@
 async function doAjax() {
-  console.log(branch);
   var imageData;
   await $.ajax({
-    url: 'json/',
+    url: 'imgId/',
     type: 'POST',
     dataType: 'json',
     data: {
       branch: branch,
+    },
+    statusCode: {
+      400: () => {
+        alert('bad request');
+      },
+      404: () => {
+        alert('Image not found');
+      },
     },
     success: (data) => {
       imageData = data.map(function (image) {
@@ -26,7 +33,6 @@ async function doAjax() {
   await imageData.forEach((image) => {
     document.getElementById('images').innerHTML += image;
   });
-  
 }
 
 doAjax();
