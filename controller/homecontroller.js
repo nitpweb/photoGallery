@@ -392,7 +392,7 @@ exports.imgId = async (req, response) => {
           });
           response.status(200).json(images);
         } else {
-          response.status(404);
+          response.status(404).json('Image not found!');
         }
       }
     );
