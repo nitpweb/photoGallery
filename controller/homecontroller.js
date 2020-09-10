@@ -359,7 +359,7 @@ exports.imgId = async (req, response) => {
     drive.files.list(
       {
         corpora: 'user',
-        q: `name='${req.body.branch}'`,
+        q: `name='${req.query.branch}'`,
         fields: 'files(*)',
       },
       (err, res) => {

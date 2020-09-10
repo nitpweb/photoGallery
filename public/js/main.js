@@ -2,7 +2,7 @@ async function doAjax() {
   var imageData;
   await $.ajax({
     url: 'imgId/',
-    type: 'POST',
+    type: 'GET',
     dataType: 'json',
     data: {
       branch: branch,

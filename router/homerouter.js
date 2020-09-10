@@ -21,6 +21,6 @@ router.get(
 
 router.post('/upload', homecontroller.uploadImg);
 router.post('/delete', homecontroller.delete);
-router.post('/imgId', homecontroller.imgId);
+router.get('/imgId', homecontroller.imgId);
 
 module.exports = router;
