@@ -1,6 +1,6 @@
-## POST request for receiving image ID
+## GET request for receiving image ID
 
-POST request to any page which is available for receiving image ID through our API doesn't require any authentication. You may get the id of images which is available in the specified folder by sending a POST request to 'https://phogallery.herokuapp.com/imgId' URL and setting the branch key value to the folder name (i.e:- branch: 'Computer Science & Engineering').
+GET request to any page which is available for receiving image ID through our API doesn't require any authentication. You may get the id of images which is available in the specified folder by sending a GET request to `https://phogallery.herokuapp.com/imgId` URL and setting the branch key value to the folder name (i.e:- branch: 'Computer Science & Engineering').
 For dressing the image URL, you have to inclose the image id received from API by `https://drive.google.com/uc?id=......&export=download`.
 Branch values which our API currently providing are:
 
@@ -17,7 +17,7 @@ Branch values which our API currently providing are:
 - homeGallery
 - homeHeader
 
-#### You may see the requests in postman for better understanding of given routes
+#### You may see the requests in postman for better understanding of the given routes
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3877c1c42f6024250c56)
 
